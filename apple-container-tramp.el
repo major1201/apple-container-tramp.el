@@ -47,6 +47,8 @@
 ;;
 ;;     /sudo:root@localhost|container:user@container:/path/to/file
 
+;;; Code:
+
 (eval-when-compile (require 'cl-lib))
 
 (require 'tramp)
@@ -82,7 +84,7 @@ Return a list of containers of the form: \(ID NAME\)"
            for info = (split-string line "[[:space:]]+" t)
            collect (car info)))
 
-(defun apple-container-tramp--parse-running-containers (&optional ignored)
+(defun apple-container-tramp--parse-running-containers (&optional _)
   "Return a list of (user host) tuples.
 
 TRAMP calls this function with a filename which is IGNORED.  The
