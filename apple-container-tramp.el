@@ -1,4 +1,8 @@
-;;; apple-container-tramp.el --- TRAMP integration for apple containers for Emacs 28 and earlier -*- lexical-binding: t; -*-
+;;; apple-container-tramp.el --- TRAMP integration for apple container -*- lexical-binding: t; -*-
+
+;; URL: https://github.com/major1201/apple-container-tramp.el
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -97,7 +101,7 @@ to connect to the default user containers."
 (defun apple-container-tramp-cleanup ()
   "Cleanup TRAMP cache for container method."
   (interactive)
-  (let ((containers (apply 'append (apple-container-tramp--running-containers))))
+  (let ((containers (apply #'append (apple-container-tramp--running-containers))))
     (maphash (lambda (key _)
                (and (vectorp key)
                     (string-equal apple-container-tramp-method (tramp-file-name-method key))
@@ -119,11 +123,18 @@ to connect to the default user containers."
                  (tramp-remote-shell       "/bin/sh")
                  (tramp-remote-shell-args  ("-i" "-c")))))
 
+(defun apple-container-tramp-setup ()
+  "Set up apple-container TRAMP method."
+  (apple-container-tramp-add-method)
+  (tramp-set-completion-function apple-container-tramp-method
+                                 apple-container-tramp-completion-function-alist))
+
 ;;;###autoload
-(eval-after-load 'tramp
-  '(progn
-     (apple-container-tramp-add-method)
-     (tramp-set-completion-function apple-container-tramp-method apple-container-tramp-completion-function-alist)))
+(if (featurep 'tramp)
+    ;; TRAMP is already loaded, run setup immediately
+    (apple-container-tramp-setup)
+  ;; TRAMP not yet loaded, defer until it is
+  (add-hook 'tramp-load-hook #'apple-container-tramp-setup))
 
 (provide 'apple-container-tramp)
 
