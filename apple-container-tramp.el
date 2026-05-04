@@ -24,12 +24,8 @@
 ;;; Commentary:
 ;;
 ;; `apple-container-tramp.el' offers a TRAMP method for Apple containers.
-;;
-;; > **NOTE**: `apple-container-tramp.el' relies in the `container exec` command.  Tested
-;; > with apple container version 0.10.0 but should work with versions >0.10.0.
-;;
-;; > **NOTE**: [Similar functionality][] is built-in to Emacs from version 29
-;; > onwards, so perhaps you don't need this package any more.
+;; It relies on the `container exec` command, and is tested with apple
+;; container version 0.10.0 but should work with versions >0.10.0.
 ;;
 ;; ## Usage
 ;;
@@ -41,7 +37,7 @@
 ;;       user           is the user that you want to use inside the container (optional)
 ;;       container-id   is the id or name of the container
 ;;
-;; ### [Multi-hop][] examples
+;; ### Multi-hop examples
 ;;
 ;; If you container is hosted on `vm.example.net`:
 ;;
